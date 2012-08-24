@@ -16,13 +16,12 @@ class Connector
     private $api;
 
 
-    public function __construct($api, $method = 'POST'){
+    public function __construct($api){
 	$this->api = $api;
-	$this->method = $method;
 	$this->init();
 	$this->autorize();
-	$this->setMethod();
 	curl_setopt ($this->connector,CURLOPT_RETURNTRANSFER,true);
+	curl_setopt ($this->connector, CURLOPT_POST, 0);
     }
 
     
@@ -36,13 +35,10 @@ class Connector
     }
 
 
-    private function setMethod(){
-	$methodKey = 1;
-
-	if ($this->method === 'GET'){
-	    $methodKey = 0;
+    public function setMethod($method = 'POST'){
+	if ($method === 'POST'){
+	    curl_setopt ($this->connector, CURLOPT_POST, 1);
 	}
-	curl_setopt ($this->connector, CURLOPT_POST, $methodKey);
     }
 
 
@@ -51,8 +47,15 @@ class Connector
     }
 
 
+    public function getInfo(){
+	return curl_getinfo($this->connector);
+    }
+
+
     public function setData($data){
-	curl_setopt ($this->connector, CURLOPT_POSTFIELDS, $data);
+	if ($data){
+	    curl_setopt ($this->connector, CURLOPT_POSTFIELDS, $data);
+	}
     }
 
 

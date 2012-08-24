@@ -12,6 +12,9 @@ namespace MGP\PHPDucksboardApi;
 
 class Api
 {
+
+    const PUSH_PATH = 'https://push.ducksboard.com/values/';
+    const PULL_PATH = 'https://pull.ducksboard.com/values/';
     private $key;
     private $path;
 
@@ -26,13 +29,26 @@ class Api
     }
 
 
-    public function setPath($path){
-	$this->path = $path;
+    public function getPath(){
+	return $this->path;
     }
 
 
-    public function getPath(){
-	return $this->path;
+    public function setPath($method = 'PUSH', $parameters){
+	$this->path =  $this->getClassConstant($method.'_PATH');
+	foreach ($parameters as $parameter){
+	    $this->path .=  $parameter;
+	}
+    }
+
+    
+    private function getClassConstant($constantName){
+	return constant('self::'.$constantName);
+    }
+
+
+    public function setAbsolutePath($absolutePath){
+	$this->path = $absolutePath;
     }
 
 }

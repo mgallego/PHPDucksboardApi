@@ -10,9 +10,11 @@ class ConnectorTest extends \PHPUnit_Framework_TestCase
 
     public function testExec(){
 	$api = new Api();
-	$api->setPath('http://php.net');
+	$api->setAbsolutePath('http://php.net');
 
-	$connector = new Connector($api, 'GET');
+	$connector = new Connector($api);
+	$connector->setMethod('GET');
+
 
 	$this->assertContains('html', $connector->exec());
     }
