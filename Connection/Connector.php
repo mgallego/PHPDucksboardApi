@@ -21,7 +21,6 @@ class Connector
 	$this->init();
 	$this->autorize();
 	curl_setopt ($this->connector,CURLOPT_RETURNTRANSFER,true);
-	curl_setopt ($this->connector, CURLOPT_POST, 0);
     }
 
     
